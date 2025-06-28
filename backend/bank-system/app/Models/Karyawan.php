@@ -6,15 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Karyawan extends Model
 {
-    protected $table = 'karyawan';
+    protected $table = 'karyawans';
     protected $guarded = [];
 
     public function departemen()
     {
-        return $this->belongsTo(Departemen::class, 'departemen_id');
+        return $this->belongsTo(Departemen::class, 'id_departemen');
     }
     public function jabatan()
     {
-        return $this->belongsTo(Jabatan::class, 'jabatan_id');
+        return $this->belongsTo(Jabatan::class, 'id_jabatan');
+    }
+
+    public function slipGaji()
+    {
+        return $this->hasMany(SlipGaji::class, "id_karyawan");
     }
 }

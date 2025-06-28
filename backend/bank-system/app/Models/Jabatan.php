@@ -27,13 +27,13 @@ class Jabatan extends Model
      */
     public function karyawan()
     {
-        return $this->hasMany(Karyawan::class, 'jabatan_id');
+        return $this->hasMany(Karyawan::class, 'id_jabatan');
     }
     /**
      * Get the Departemen associated with the Jabatan.
      */
     public function departemen()
     {
-        return $this->hasMany(Departemen::class, 'jabatan_id');
+        return $this->hasMany(Departemen::class, 'id_jabatan');
     }
 }

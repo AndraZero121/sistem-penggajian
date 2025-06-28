@@ -10,30 +10,28 @@ class Departemen extends Model
     protected $guarded = [];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'nama_departemen' => 'string',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 
     /**
      * Get the Karyawan associated with the Departemen.
      */
     public function karyawan()
     {
-        return $this->hasMany(Karyawan::class, 'departemen_id');
+        return $this->hasMany(Karyawan::class, 'id_departemen');
     }
     /**
      * Get the Jabatan associated with the Departemen.
      */
     public function jabatan()
     {
-        return $this->hasMany(Jabatan::class, 'departemen_id');
+        return $this->hasMany(Jabatan::class, 'id_departemen');
     }
 }
