@@ -1,14 +1,13 @@
-import { useState } from 'react'
-// import axios from 'axios'
-import Swal from 'sweetalert2'
-import { useNavigate, Navigate } from 'react-router-dom'
-import setBaseUrl from '../utils/service'
+import { useState, useEffect } from "react"
+import Swal from "sweetalert2"
+import { useNavigate } from "react-router-dom"
+import setBaseUrl from "../utils/service"
 
 export default function Home() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [form, setForm] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   })
 
   const onChangeForm = (key, value) => {
@@ -16,51 +15,62 @@ export default function Home() {
       ...form, [key]: value
     })
   }
-
-  const onSubmit = async () => {
+  async function onSubmit() {
     try {
-      const response = await setBaseUrl.post('/login', {
+      const requestdata = await setBaseUrl.post("/login", {
         email: form.email,
-        password: form.password,
+        password: form.password
       })
-      const status = response.status
-      if (status === 200) {
-        // Simpan token ke localStorage
-        localStorage.setItem('token', response.data.token)
-        // Redirect ke halaman dashboard
-        navigate('/dashboard')
-        // Tampilkan pesan sukses
+      if(requestdata.status !== 200) {
         Swal.fire({
-          icon: 'success',
-          title: 'Berhasil',
-          text: 'Anda berhasil masuk ke akun Anda',
-          confirmButtonText: 'OK',
+          icon: "error",
+          title: "Gagal",
+          text: "Unexpected Response!",
+          confirmButtonText: "OK",
         })
+        return; // End
       }
-    } catch (error) {
-      let message = 'Gagal masuk ke akun Anda, silakan coba lagi'
-      if (error.response && error.response.status === 422) {
-        // Laravel validation error
-        const errors = error.response.data.errors
-        message = Object.values(errors).flat().join(', ')
+      localStorage.setItem("token", String(requestdata.data.token).trim())
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil",
+        text: "Anda berhasil masuk ke akun Anda",
+        confirmButtonText: "OK",
+      })
+      navigate("/dashboard")
+    } catch(e) {
+      const response = e.response
+      if(response) {
+        // Catch Error Axios (Axios Has Return Error If Status Respon On 4xx And 5xx)
+        const catchError = Object.values((response.data.errors))?.flat()?.join(", ")
+        Swal.fire({
+          icon: "error",
+          title: "Gagal",
+          text: catchError,
+          confirmButtonText: "OK",
+        })
+        return; // End
       }
       Swal.fire({
-        icon: 'error',
-        title: 'Gagal',
-        text: message,
-        confirmButtonText: 'OK',
+        icon: "error",
+        title: "Kesalahan",
+        text: "Masalah pada koneksi ke server",
+        confirmButtonText: "OK",
       })
     }
   }
-  const isLoggedIn = () => {
-    const token = localStorage.getItem('token')
+  async function DetectedNotLogin() {
+    const isLoggedIn = () => {
+      const token = localStorage.getItem("token")
       return token
     }
-    // Redirect to dashboard if already logged in
-    if (isLoggedIn()) {
-        return <Navigate to='/dashboard' />
+    if(isLoggedIn()) {
+      return navigate("/dashboard")
     }
-
+  }
+  useEffect(() => {
+    DetectedNotLogin()
+  }, [])
   return (
     <div>
       <nav className="navbar bg-body-tertiary">
@@ -72,9 +82,9 @@ export default function Home() {
               width="60"
               height="40"
               className="d-inline-block align-text-top"
-              style={{ marginRight: '8px' }}
+              style={{ marginRight: "8px" }}
             />
-            <span style={{ marginLeft: '8px', fontWeight: 'bold' }}>Bank Jateng Syariah</span>
+            <span style={{ marginLeft: "8px", fontWeight: "bold" }}>Bank Jateng Syariah</span>
           </a>
           <button className="btn btn-primary ms-auto" type="button">
             Masuk
@@ -84,12 +94,12 @@ export default function Home() {
       <section>
         <div className="container text-center my-5">
           <img src="login.png" alt="Bank Jateng Syariah Banner" className="img-fluid" />
-          <p className='fs-3 fw-bold mt-3'>Masuk Ke Akun Anda</p>
+          <p className="fs-3 fw-bold mt-3">Masuk Ke Akun Anda</p>
         </div>
       </section>
       <section>
         <div className="container">
-          <form method='post'>
+          <form method="post">
             <div className="row mb-3">
               <div className="col-md-4">
                 <label htmlFor="nama_pengguna" className="form-label fw-bold">
@@ -100,7 +110,7 @@ export default function Home() {
                   className="form-control"
                   id="email"
                   placeholder="Masukkan Nama Pengguna / Email"
-                  onChange={event => onChangeForm('email', event.target.value)}
+                  onChange={event => onChangeForm("email", event.target.value)}
                 />
               </div>
             </div>
@@ -114,7 +124,7 @@ export default function Home() {
                   className="form-control"
                   id="password"
                   placeholder="Kata Sandi"
-                  onChange={event => onChangeForm('password', event.target.value)}
+                  onChange={event => onChangeForm("password", event.target.value)}
                 />
               </div>
             </div>
@@ -126,7 +136,7 @@ export default function Home() {
               </div>
             </div>
               <p className="text-muted text-center">
-                Belum punya akun?{' '}
+                Belum punya akun?{" "}
                 <a href="/register" className="text-decoration-none">
                  Daftar
                 </a>
