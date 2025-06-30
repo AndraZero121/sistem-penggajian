@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Swal from 'sweetalert2'
 import { useNavigate, Navigate } from 'react-router-dom'
 import setBaseUrl from '../utils/service'
+import { useEffect } from 'react'
 
 export default function Home() {
   const navigate = useNavigate();
@@ -52,14 +53,33 @@ export default function Home() {
       })
     }
   }
+  useEffect(() => {
+    const storeName = localStorage.getItem('name')
+    if (storeName) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Selamat Datang',
+        text: `Selamat datang kembali, ${storeName}`,
+        confirmButtonText: 'OK',
+      })
+    } else {
+      Swal.fire({
+        icon: 'info',
+        title: 'Selamat Datang',
+        text: 'Selamat datang di Bank Jateng Syariah',
+        confirmButtonText: 'OK',
+      })
+    }
+  }, [])
+
   const isLoggedIn = () => {
     const token = localStorage.getItem('token')
-      return token
-    }
-    // Redirect to dashboard if already logged in
-    if (isLoggedIn()) {
-        return <Navigate to='/dashboard' />
-    }
+    return token
+  }
+  // Redirect to dashboard if already logged in
+  if (isLoggedIn()) {
+    return <Navigate to='/dashboard' />
+  }
 
   return (
     <div>

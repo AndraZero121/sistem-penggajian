@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use AndraZero121\ApiResourceTyper\Traits\ApiResourceTyper;
 
 class AuthController extends Controller
 {
+    use ApiResourceTyper;
     /**
      * Display a listing of the resource.
      */

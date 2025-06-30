@@ -15,7 +15,7 @@ class SlipGajiController extends Controller
      */
     public function index()
     {
-        $slipGaji = SlipGaji::all();
+        $slipGaji = SlipGaji::with("karyawan")->get();
 
         return response()->json([
             "status" => true,
@@ -137,7 +137,7 @@ class SlipGajiController extends Controller
             $penghasilanBruto = $gajiPokok + $totalTunjangan;
 
             // Hitung total potongan
-            $totalPotongan = 
+            $totalPotongan =
                 ($request->has('total_potongan') ? $request->total_potongan : $slipGaji->total_potongan)
                 + ($request->has('pph21_terpotong') ? $request->pph21_terpotong : $slipGaji->pph21_terpotong)
                 + ($request->has('total_iuran_bpjs_kesehatan') ? $request->total_iuran_bpjs_kesehatan : $slipGaji->total_iuran_bpjs_kesehatan);

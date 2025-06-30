@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'api-typer'])->group(function () {
     Route::apiResource('karyawan', KaryawanController::class);
     Route::apiResource('departemen', DepartemenController::class);
     Route::apiResource('jabatan', JabatanController::class);
@@ -22,12 +22,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
-
-
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
-
 // Route::get('karyawan', function() {
 //     return response()->json([
 //         'status' => true,

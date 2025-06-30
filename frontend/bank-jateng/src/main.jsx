@@ -1,34 +1,47 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import Register from './pages/Register.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Karyawan from './pages/Karyawan.jsx';
+import Departemen from './pages/Departemen.jsx';
+import Laporan from './pages/Laporan.jsx';
+import Jabatan from './pages/Jabatan.jsx';
 
-
-let router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: '/',
-    Component: Home,
+    element: <Home />,
   },
   {
     path: '/register',
-    Component: Register,
+    element: <Register />,
   },
   {
     path: '/dashboard',
-    Component: Dashboard,
+    element: <Dashboard />,
   },
   {
     path: '/karyawan',
-    Component: Karyawan,
+    element: <Karyawan />,
+  },
+  {
+    path: '/departemen',
+    element: <Departemen />,
+  },
+  {
+    path: '/laporan',
+    element: <Laporan />,
+  },
+  {
+    path: '/jabatan',
+    element: <Jabatan />,
   }
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RouterProvider router={router} />
-    {/* <App /> */}
-  </StrictMode>,
-)
+  </StrictMode>
+);

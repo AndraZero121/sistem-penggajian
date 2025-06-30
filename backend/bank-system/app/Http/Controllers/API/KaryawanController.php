@@ -56,7 +56,7 @@ class KaryawanController extends Controller
             'gaji_pokok' => 'nullable|numeric',
             'nomor_rekening' => 'nullable|string|max:50',
             'nama_bank' => 'nullable|string|max:100',
-            'status_kepegawaian' => 'nullable|in:Tetap,Kontrak,Harian',
+            'status_kepegawaian' => 'nullable',
             'is_active' => 'boolean',
         ]);
 
