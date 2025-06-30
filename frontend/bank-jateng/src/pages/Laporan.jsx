@@ -9,7 +9,7 @@ export default function Laporan() {
     }, [])
 
     const [dataLaporan, setDataLaporan] = useState([])
-    const [dataKaryawan, setDataKaryawan] = useState([])
+    // const [dataKaryawan, setDataKaryawan] = useState([])
     const isLoggedIn = () => {
         const token = localStorage.getItem('token')
         return token

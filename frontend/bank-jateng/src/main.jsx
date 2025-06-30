@@ -38,9 +38,17 @@ const router = createBrowserRouter([
     path: '/jabatan',
     element: <Jabatan />,
   }
-]);
+])
 
-createRoot(document.getElementById('root')).render(
+function MainRoot() {
+  return <>
+    <RouterProvider
+      router={router}
+    />
+  </>
+}
+
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
   </StrictMode>

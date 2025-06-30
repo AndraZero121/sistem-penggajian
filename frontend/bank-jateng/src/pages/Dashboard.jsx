@@ -1,17 +1,23 @@
-import React from 'react'
-import { Navigate, Link } from 'react-router-dom'
+import { useEffect } from "react"
+import { useNavigate, Link } from "react-router-dom"
 
 export default function Dashboard() {
-    // const navigate = useNavigate()
-    // Function to check if the user is logged in
+  const navigate = useNavigate()
+  async function DetectedNotLogin() {
     const isLoggedIn = () => {
-        const token = localStorage.getItem('token')
-        return token
+      const token = localStorage.getItem("token")
+      return token
     }
-    // Redirect to login if not logged in
     if (!isLoggedIn()) {
-        return <Navigate to='/' />
+      return navigate("/")
     }
+  }
+  
+  useEffect(() => {
+    DetectedNotLogin()
+    // eslint-disable-next-line
+  }, [])
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-body-tertiary shadow-sm">
